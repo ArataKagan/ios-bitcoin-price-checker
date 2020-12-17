@@ -11,7 +11,7 @@ import Foundation
 struct CoinManager {
     
     let baseURL = "https://rest.coinapi.io/v1/exchangerate/BTC"
-    let apiKey = "YOUR_API_KEY_HERE"
+    let apiKey = "944BF66B-9036-4FD6-8FA4-6B1240DF1037"
     
     func getCoinPrice(for currency:String){
         print(currency)
