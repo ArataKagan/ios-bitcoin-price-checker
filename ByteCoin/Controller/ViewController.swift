@@ -8,8 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
-    let coinManager = CoinManager()
+class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, CoinManagerDelegate {
+  
+    var coinManager = CoinManager()
     
     @IBOutlet weak var bitcoinLabel: UILabel!
     @IBOutlet weak var currencyLabel: UILabel!
@@ -18,8 +19,10 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        coinManager.delegate = self
         currencyPicker.dataSource = self
         currencyPicker.delegate = self
+        
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -39,8 +42,17 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         coinManager.getCoinPrice(for: coinManager.currencyArray[row])
     }
     
+    func didUpdateCoin(_ coinManager: CoinManager, coin: Float) {
+        DispatchQueue.main.async {
+            let s = String(format: "%.2f", coin)
+            self.bitcoinLabel.text = s
+        }
+    }
     
-
-
+    func didFailWithError(error: Error) {
+        print(error)
+    }
+    
+    
 }
 
