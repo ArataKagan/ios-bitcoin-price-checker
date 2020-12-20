@@ -22,13 +22,11 @@ struct CoinManager {
     var delegate: CoinManagerDelegate?
     
     func getCoinPrice(for currency:String){
-        print(currency)
         let urlString = "\(baseURL)/\(currency)?apiKey=\(apiKey)"
         performRequest(with: urlString)
     }
     
     func performRequest(with urlString: String){
-        print(urlString)
         if let url = URL(string: urlString){
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url){(data, response, error) in
@@ -40,7 +38,6 @@ struct CoinManager {
                 if let safeData = data {
                     if let coin = self.parseJSON(safeData){
                         self.delegate?.didUpdateCoin(self, coin:coin)
-                        print(coin)
                     }
                 }
             }
@@ -49,14 +46,11 @@ struct CoinManager {
     }
     
     func parseJSON(_ coinData: Data) -> CoinModel?{
-        print("Inside of parseJSON")
-        print(coinData)
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode(CoinData.self, from:coinData)
             let rate = decodedData.rate
             let currancy = decodedData.asset_id_quote
-            
             return CoinModel(currency: currancy, rate: rate)
         } catch {
             self.delegate?.didFailWithError(error: error)
@@ -64,10 +58,4 @@ struct CoinManager {
         }
         
     }
-    
-    
-    
-    
-
-    
 }
