@@ -9,6 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, CoinManagerDelegate {
+   
   
     var coinManager = CoinManager()
     
@@ -42,10 +43,11 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         coinManager.getCoinPrice(for: coinManager.currencyArray[row])
     }
     
-    func didUpdateCoin(_ coinManager: CoinManager, coin: Float) {
+    func didUpdateCoin(_ coinManager: CoinManager, coin: CoinModel) {
         DispatchQueue.main.async {
-            let s = String(format: "%.2f", coin)
+            let s = String(format: "%.2f", coin.rate)
             self.bitcoinLabel.text = s
+            self.currencyLabel.text = coin.currency
         }
     }
     
