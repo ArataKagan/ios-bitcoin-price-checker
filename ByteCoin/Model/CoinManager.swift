@@ -21,15 +21,17 @@ struct CoinManager {
     }
     
     func performRequest(with urlString: String){
+        print(urlString)
         if let url = URL(string: urlString){
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url){(data, response, error) in
                 if error != nil {
                     return
                 }
-                if let safeData = data {
-                    print("Inside of performRequest ", safeData)
-                }
+                
+                let backToString = String(data: data!, encoding: String.Encoding.utf8) as String?
+                print(backToString!)
+                
             }
             task.resume()
         }
